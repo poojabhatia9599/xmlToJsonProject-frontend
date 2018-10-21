@@ -64,7 +64,11 @@ class App extends Component {
       		})
           .then(response => response.json())
           .then(resp => {
-            console.log(resp);
+            console.log('pehla resp');
+
+            if (resp['result'] === 'success'){
+              console.log('if response');
+              console.log(resp);
             fetch('https://afternoon-inlet-42676.herokuapp.com/fetchdata', {
         			method: 'post',
         			headers: {'Content-Type': 'application/json'},
@@ -76,15 +80,25 @@ class App extends Component {
             .then(response => {
               console.log(response);
               //setstate kr yah
+              // debugger;
               this.setState({ xml: response.rsp_obj.xmldata});
               // console.log('xml');
               // console.log(this.state.xml);
+              console.log(this.state.xml);
               this.setState({ past: response.rsp_obj.pastrecords});
+              // debugger;
               // console.log('past');
+              console.log('state ka value');
+              console.log(this.state.past);
               // console.log(this.state.past);
+              this.setState({status: true});
 
 
             })
+          } else {
+            console.log('elseresp');
+            console.log(resp);
+          }
           })
 
         };
@@ -150,9 +164,15 @@ class App extends Component {
 
 onfileupload = () => {
 
-    this.setState({ status: true});
-    // this.setState({istherearecord:true});
+  if (this.state.past !== 'false') {
+  this.setState({ status: true});
+}
+  }
 
+  onfileuploading = () => {
+    if (this.state.past !== 'false') {
+    this.setState({ status: true});
+  }
   }
 
     handleClick(id) {
@@ -189,16 +209,14 @@ onfileupload = () => {
     let tab2;
     var handleClick  =   this.handleClick;
     var handleClickGoBack  =   this.handleClickGoBack;
-    if(this.state.status) {
+    if(this.state.status !== false && this.state.past !== null) {
       page =
       <div>
-      <Button bsStyle="primary" onClick={this.onfileupload} >Primary</Button>
+      <Button bsStyle="primary" onClick={this.onfileupload} >Report</Button>
       <Tab1data past={this.state.past} xml={this.state.xml}/>
       </div>;
     } else {
-      page = <Button bsStyle="primary"
-              onClick={this.onfileupload}
-              >Primary</Button>;
+      page = <h3> Upload an XML file for the report generation.</h3>;
     }
 
     // if(this.state.allrecords !== 'false') {
@@ -212,15 +230,17 @@ onfileupload = () => {
       <Tabs className="App" defaultActiveKey={1} id="uncontrolled-tab-example"
       activeKey={this.state.key}
       onSelect= {this.handleSelect}>
-        <Tab eventKey={1} title="Tab 1">
+        <Tab eventKey={1} title="UPLOAD XML FILE">
             <input type="file" name="upload"
             accept="application/xml"
             // onfileupload={this.onfileupload}
             onChange={ (e) => this.handleChange(e.target.files[0]) } />
             { page }
         </Tab>
-        <Tab eventKey={2} title="Tab 2" >
-          <Tab2data handleClickGoBack = {handleClickGoBack.bind(this)} handleClick = {handleClick.bind(this)} viewdetails_id={this.state.viewdetails_id} allrecordsdummy={this.state.allrecordsdummy}
+        <Tab eventKey={2} title="PAST RECORDS" >
+          <Tab2data handleClickGoBack = {handleClickGoBack.bind(this)}
+          handleClick = {handleClick.bind(this)} viewdetails_id={this.state.viewdetails_id}
+          allrecordsdummy={this.state.allrecordsdummy}
           allrecords={this.state.allrecords} istherearecord={this.state.istherearecord}/>
 
         </Tab>

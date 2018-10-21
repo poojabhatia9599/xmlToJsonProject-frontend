@@ -66,9 +66,7 @@ class Tab2data extends Component {
 						</tr>
 	 				)
 	 			})
-				// return(
-				// 	<p>balsss</p>
-				// )
+
 
 				return(
 					<div>
@@ -90,7 +88,7 @@ class Tab2data extends Component {
 				);
 
 		} else {
-			
+
 			if (this.props.viewdetails_id) {
 				var handleClickGoBack  =   this.props.handleClickGoBack;
 
@@ -99,7 +97,7 @@ class Tab2data extends Component {
 				// 	<button onClick={() => handleClickGoBak()}>Go back</button>
 				// 	<p>{this.props.viewdetails_id.xmldata.s3link}</p>
 				// 	</div>
-				// ); okay run krke dekhteha
+				// ); 
 				const listdata = this.props.viewdetails_id.pastrecords.map((name,i) => {
 					return (
 						<tr key={i}>

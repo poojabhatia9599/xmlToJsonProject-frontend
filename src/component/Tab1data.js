@@ -10,7 +10,7 @@ class Tab1data extends Component {
 		// console.log(xml);
 		// console.log('past');
 		// console.log(past);
-
+			// debugger; 
 		const listt = past.map((name,i) => {
 			return (
 				<tr key={i}>
