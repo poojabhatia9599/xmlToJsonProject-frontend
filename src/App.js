@@ -6,23 +6,13 @@ import Tab1data from './component/Tab1data';
 import Tab2data from './component/Tab2data';
 import Tabreplace from './component/Tabreplace';
 import input from './component/input';
-// const fs = require('fs');
-// import { uploadFile } from 'react-s3';
-// var X2JS = require('x2js');
-// import x2js from 'x2js';
-// import Tab1 from './component/Tab1';
-// import Tab2 from './component/Tab2';
 
-
-// const initialState = {
-//   content : ''
-// }
 
 class App extends Component {
   constructor(props: any, context)
     {
         super(props, context);
-        //this.state = initialState;
+
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -38,13 +28,7 @@ class App extends Component {
         };
     }
 
-    // componentDidMount() {
-    //   if(this.state.allrecords) {
-    //     this.setState({istherearecord: true});
-    //   }
-    // }
 
-    //let fileReader;
     handleChange(selectorFiles)
     {
         // let json = {}
@@ -72,25 +56,20 @@ class App extends Component {
             fetch('https://afternoon-inlet-42676.herokuapp.com/fetchdata', {
         			method: 'post',
         			headers: {'Content-Type': 'application/json'},
-        			// body: JSON.stringify({
-              //
-        			// })
+
         		})
             .then(response => response.json())
             .then(response => {
               console.log(response);
-              //setstate kr yah
-              // debugger;
+
               this.setState({ xml: response.rsp_obj.xmldata});
-              // console.log('xml');
-              // console.log(this.state.xml);
+
               console.log(this.state.xml);
               this.setState({ past: response.rsp_obj.pastrecords});
-              // debugger;
-              // console.log('past');
+
               console.log('state ka value');
               console.log(this.state.past);
-              // console.log(this.state.past);
+
               this.setState({status: true});
 
 
@@ -102,36 +81,15 @@ class App extends Component {
           })
 
         };
-      //   fileReader2.onloadend = (e) => {
-      //     cons = fileReader2.result;
-      //     console.log(cons)
-      //     var fd = new FormData();
-      //     fd.append('file', cons);
-      //         // if (err) throw err;
-      //     //const formData = new FormData();
-      //   // formData.append('file', cons);
-      //   fetch('http://localhost:5000/s3upload', {
-      //     method: 'post',
-      //     headers: {'Content-Type': 'multipart/form-data'},
-      //     body: fd
-      //   })
-      //   // .then(response => response.json())
-      //   .then(resp => {
-      //
-      //     console.log(resp);
-      //   })
-      // };
+
         fileReader.readAsText(selectorFiles);
         fileReader2.readAsArrayBuffer(selectorFiles);
-        // console.log(typeof(selectorFiles));
 
-        //const data = readAsBuffer()
-        // console.log(this.state.content);
 
     }
 
     handleSelect(key) {
-    // alert(`selected ${key}`);
+
     console.log('key'+key);
     this.setState({ key: key });
     if(key===2) {
@@ -140,9 +98,7 @@ class App extends Component {
       fetch('https://afternoon-inlet-42676.herokuapp.com/fetchalldata', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        // body: JSON.stringify({
-        //
-        // })
+
       })
       .then(response => response.json())
       .then(response => {
@@ -150,16 +106,12 @@ class App extends Component {
 
         this.setState({ allrecords: response });
         this.setState({ allrecordsdummy: response });
-      //   if(response) {
-      //this.setState({ istherearecord: true});
-      // }
+
         console.log('allrecords');
         console.log(this.state.allrecords);
       })
     }
-    // if(this.state.allrecords) {
-    //   this.setState({ istherearecord: true});
-    // }
+
   }
 
 onfileupload = () => {
@@ -193,17 +145,11 @@ onfileupload = () => {
 
         }
 
- // aretherrecords = () => {
- //   if(this.state.allrecords) {
- //     this.setState({ istherearecord: true})
- //   }
- // }
+
 
   render() {
 
-    // const status = this.state.status;
-    // const allrecords = this.state.allrecords;
-    // const istherearecord = this.state.i
+
 
     let page;
     let tab2;
@@ -219,12 +165,7 @@ onfileupload = () => {
       page = <h3> Upload an XML file for the report generation.</h3>;
     }
 
-    // if(this.state.allrecords !== 'false') {
-    //   tab2 =
-    //
-    // } else {
-    //   tab2 = <Tabreplace />
-    // }
+
 
     return (
       <Tabs className="App" defaultActiveKey={1} id="uncontrolled-tab-example"
@@ -233,7 +174,7 @@ onfileupload = () => {
         <Tab eventKey={1} title="UPLOAD XML FILE">
             <input type="file" name="upload"
             accept="application/xml"
-            // onfileupload={this.onfileupload}
+          
             onChange={ (e) => this.handleChange(e.target.files[0]) } />
             { page }
         </Tab>
