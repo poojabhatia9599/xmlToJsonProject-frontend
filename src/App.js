@@ -4,9 +4,6 @@ import {Tabs, Tab} from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import Tab1data from './component/Tab1data';
 import Tab2data from './component/Tab2data';
-import Tabreplace from './component/Tabreplace';
-import input from './component/input';
-
 
 class App extends Component {
   constructor(props: any, context)
@@ -24,7 +21,6 @@ class App extends Component {
           allrecordsdummy: null,
           status: false,
           viewdetails_id: null,
-          istherearecord: false
         };
     }
 
@@ -32,14 +28,20 @@ class App extends Component {
     handleChange(selectorFiles)
     {
         // let json = {}
+        if (selectorFiles !== null) {
+
         let con = '';
         let cons = '';
-
+        // debugger;
+        console.log(selectorFiles);
+        const filetype = selectorFiles.name.substring(selectorFiles.name.lastIndexOf('.') + 1, selectorFiles.name.length);
+        if (filetype === 'xml') {
         const fileReader = new FileReader();
         const fileReader2 = new FileReader();
         fileReader.onloadend = (e) => {
           con = fileReader.result;
-          fetch('https://afternoon-inlet-42676.herokuapp.com/uploads', {
+
+          fetch('http://localhost:5000/uploads', {
       			method: 'post',
       			headers: {'Content-Type': 'application/json'},
       			body: JSON.stringify({
@@ -49,11 +51,12 @@ class App extends Component {
           .then(response => response.json())
           .then(resp => {
             console.log('pehla resp');
-
-            if (resp['result'] === 'success'){
+            if (resp['result'] === 'data invalid') {
+              alert ('Xml file is either corrupted or has empty fields.');
+            } else if (resp['result'] === 'success'){
               console.log('if response');
               console.log(resp);
-            fetch('https://afternoon-inlet-42676.herokuapp.com/fetchdata', {
+            fetch('http://localhost:5000/fetchdata', {
         			method: 'post',
         			headers: {'Content-Type': 'application/json'},
 
@@ -64,10 +67,11 @@ class App extends Component {
 
               this.setState({ xml: response.rsp_obj.xmldata});
 
+              console.log('xml');
               console.log(this.state.xml);
               this.setState({ past: response.rsp_obj.pastrecords});
 
-              console.log('state ka value');
+              console.log('past');
               console.log(this.state.past);
 
               this.setState({status: true});
@@ -85,8 +89,11 @@ class App extends Component {
         fileReader.readAsText(selectorFiles);
         fileReader2.readAsArrayBuffer(selectorFiles);
 
-
+      } else {
+        alert('Please upload an XML file');
+      }
     }
+}
 
     handleSelect(key) {
 
@@ -95,7 +102,7 @@ class App extends Component {
     if(key===2) {
 
       console.log('vasgv');
-      fetch('https://afternoon-inlet-42676.herokuapp.com/fetchalldata', {
+      fetch('http://localhost:5000/fetchalldata', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
 
@@ -148,11 +155,7 @@ onfileupload = () => {
 
 
   render() {
-
-
-
     let page;
-    let tab2;
     var handleClick  =   this.handleClick;
     var handleClickGoBack  =   this.handleClickGoBack;
     if(this.state.status !== false && this.state.past !== null) {
@@ -173,8 +176,8 @@ onfileupload = () => {
       onSelect= {this.handleSelect}>
         <Tab eventKey={1} title="UPLOAD XML FILE">
             <input type="file" name="upload"
-            accept="application/xml"
-          
+            accept="text/xml"
+
             onChange={ (e) => this.handleChange(e.target.files[0]) } />
             { page }
         </Tab>
@@ -182,7 +185,7 @@ onfileupload = () => {
           <Tab2data handleClickGoBack = {handleClickGoBack.bind(this)}
           handleClick = {handleClick.bind(this)} viewdetails_id={this.state.viewdetails_id}
           allrecordsdummy={this.state.allrecordsdummy}
-          allrecords={this.state.allrecords} istherearecord={this.state.istherearecord}/>
+          allrecords={this.state.allrecords} />
 
         </Tab>
       </Tabs>

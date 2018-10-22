@@ -12,7 +12,7 @@ class Tab1data extends Component {
 				<tr key={i}>
 
 				<td >{name.vehicletype}</td>
-				<td >{name._id}</td>
+				<td >{name.id}</td>
 				<td >{name.frame}</td>
 				<td >{name.powertrain}</td>
 				<td >{name.wheels.position}</td>
