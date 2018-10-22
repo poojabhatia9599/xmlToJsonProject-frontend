@@ -42,7 +42,7 @@ class App extends Component {
         fileReader.onloadend = (e) => {
           con = fileReader.result;
 
-          fetch('http://localhost:5000/uploads', {
+          fetch('https://afternoon-inlet-42676.herokuapp.com/uploads', {
       			method: 'post',
       			headers: {'Content-Type': 'application/json'},
       			body: JSON.stringify({
@@ -57,7 +57,7 @@ class App extends Component {
             } else if (resp['result'] === 'success'){
               console.log('if response');
               console.log(resp);
-            fetch('http://localhost:5000/fetchdata', {
+            fetch('https://afternoon-inlet-42676.herokuapp.com/fetchdata', {
         			method: 'post',
         			headers: {'Content-Type': 'application/json'},
 
@@ -103,7 +103,7 @@ class App extends Component {
     if(key===2) {
 
       console.log('vasgv');
-      fetch('http://localhost:5000/fetchalldata', {
+      fetch('https://afternoon-inlet-42676.herokuapp.com/fetchalldata', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
 
